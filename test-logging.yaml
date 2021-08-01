@@ -1,0 +1,11 @@
+id: custom-logging
+name: custom-logging
+description: custom logging
+category: Custom
+type: custom
+resourceLevelSupported: true
+encryptionSupported: false
+standalone: true
+requiredCharacteristics: []
+providedCharacteristics: []
+configuration: []

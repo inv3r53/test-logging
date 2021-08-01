@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:http-policy="http://www.mulesoft.org/schema/mule/http-policy"
+      xmlns:json-logger="http://www.mulesoft.org/schema/mule/json-logger"
+      xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+      xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+      http://www.mulesoft.org/schema/mule/http-policy http://www.mulesoft.org/schema/mule/http-policy/current/mule-http-policy.xsd
+      http://www.mulesoft.org/schema/mule/json-logger http://www.mulesoft.org/schema/mule/json-logger/current/mule-json-logger.xsd">
+
+    <!--
+<json-logger:config name="JSON_Logger_Config" doc:name="JSON Logger Config" doc:id="17a54b60-cd30-4826-9cf4-45b6ab961378">
+    <json-logger:external-destination>
+    <json-logger:amq-destination clientId="${secure::json.logger.defaults.clientID}"/>
+    </json-logger:external-destination>
+    </json-logger:config>
+    -->
+
+    <http-policy:proxy name="{{{policyId}}}-custom-policy">
+        <http-policy:source>
+            <try>
+                <try>
+                    <json-logger:logger doc:name="Entry" doc:id="c23f332b-8916-495f-a7cc-7c5e7345588d"
+                                        config-ref="JSON_Logger_Config" message="#[${file::dw/log.dwl}]"
+                                        tracePoint="START"/>
+                    <error-handler>
+                        <on-error-continue logException="false">
+                            <logger level="ERROR" message="Before calling API turned into an error"
+                                    category="test-logging-policy"/>
+                        </on-error-continue>
+                    </error-handler>
+                </try>
+                <http-policy:execute-next/>
+                <json-logger:logger doc:name="Exit" doc:id="c23f332b-8916-495f-a7cc-7c5e7345588d"
+                                    config-ref="JSON_Logger_Config" message="#[${file::dw/log.dwl}]" tracePoint="END"/>
+                <error-handler>
+                    <on-error-propagate logException="false">
+                        <json-logger:logger doc:name="Exception" doc:id="c23f332b-8916-495f-a7cc-7c5e7345588d"
+                                            config-ref="JSON_Logger_Config" message="#[${file::dw/log.dwl}]"
+                                            tracePoint="END"/>
+                    </on-error-propagate>
+                </error-handler>
+            </try>
+        </http-policy:source>
+        <http-policy:operation>
+            <try>
+                <try>
+                    <json-logger:logger doc:name="Before" doc:id="c23f332b-8916-495f-a7cc-7c5e73455812"
+                                        config-ref="JSON_Logger_Config" message="#[${file::dw/log.dwl}]"
+                                        tracePoint="BEFORE_REQUEST"/>
+                    <error-handler>
+                        <on-error-continue logException="false">
+                            <logger level="ERROR" message="Logging Before http-requester turned into an error"
+                                    category="test-logging-policy"/>
+                        </on-error-continue>
+                    </error-handler>
+                </try>
+                <http-policy:execute-next/>
+                <json-logger:logger doc:name="After" doc:id="c23f332b-8916-495f-a7cc-7c5e73455834"
+                                    config-ref="JSON_Logger_Config" message="#[${file::dw/log.dwl}]" tracePoint="AFTER_REQUEST"/>
+                <error-handler>
+                    <on-error-propagate logException="false">
+                        <json-logger:logger doc:name="After-Exception" doc:id="c23f332b-8916-495f-a7cc-7c5e73455856"
+                                            config-ref="JSON_Logger_Config" message="#[${file::dw/log.dwl}]"
+                                            tracePoint="AFTER_REQUEST"/>
+                    </on-error-propagate>
+                </error-handler>
+            </try>
+        </http-policy:operation>
+    </http-policy:proxy>
+</mule>
