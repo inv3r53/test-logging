@@ -18,17 +18,7 @@
         <exchange.url>
             https://maven.anypoint.mulesoft.com/api/v1/organizations/68d51fe5-b0e2-43a4-8074-79fd1dc27a22/maven
         </exchange.url>
-        <http.policy.transform.extension>3.0.0</http.policy.transform.extension>
     </properties>
-
-    <!--    <dependencies>
-           <dependency>
-                <groupId>com.anz.mulesoft</groupId>
-                <artifactId>json-logger</artifactId>
-                <version>2.0.11</version>
-               <classifier>mule-plugin</classifier>
-           </dependency>
-       </dependencies>-->
 
     <build>
         <plugins>
