@@ -29,7 +29,7 @@
                     <on-error-propagate logException="false">
                         <json-logger:logger doc:name="Exception" doc:id="c23f332b-8916-495f-a7cc-7c5e7345588d"
                                             config-ref="JSON_Logger_Config" message="#[${file::dw/log.dwl}]"
-                                            tracePoint="END"/>
+                                            tracePoint="EXCEPTION"/>
                     </on-error-propagate>
                 </error-handler>
             </try>
@@ -54,7 +54,7 @@
                     <on-error-propagate logException="false">
                         <json-logger:logger doc:name="After-Exception" doc:id="c23f332b-8916-495f-a7cc-7c5e73455856"
                                             config-ref="JSON_Logger_Config" message="#[${file::dw/log.dwl}]"
-                                            tracePoint="AFTER_REQUEST"/>
+                                            tracePoint="EXCEPTION"/>
                     </on-error-propagate>
                 </error-handler>
             </try>
